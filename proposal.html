@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pooks 💖 Valentine Surprise</title>
+
+<style>
+body {
+    margin:0;
+    background:linear-gradient(135deg,#ff9eb5,#ffc0cb);
+    font-family:Arial;
+    text-align:center;
+    overflow:hidden;
+    color:white;
+}
+
+h1 { margin-top:30px; }
+
+button {
+    font-size:18px;
+    padding:12px 22px;
+    margin:15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+#yesBtn { background:#ff4d6d; color:white; }
+#noBtn { background:#666; color:white; position:absolute; }
+
+.rose, .heart, .firework, .confetti {
+    position:absolute;
+    font-size:24px;
+}
+
+@keyframes fall { to { transform:translateY(110vh); } }
+.rose { animation:fall linear; }
+
+@keyframes explode {
+    0% { transform:scale(.3); opacity:1; }
+    100% { transform:scale(3); opacity:0; }
+}
+.firework { animation:explode 1s forwards; }
+
+.secret {
+    margin-top:20px;
+    cursor:pointer;
+    font-size:18px;
+    opacity:0.8;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💖 Hey Pooks… 💖</h1>
+<div id="countdown"></div>
+<div id="message"></div>
+
+<button id="yesBtn">YES ❤️</button>
+<button id="noBtn">NO 🙈</button>
+
+<div class="secret" onclick="secret()">Tap for a secret 💌</div>
+
+<script>
+
+// ================= COUNTDOWN =================
+let c=3;
+let cd=document.getElementById("countdown");
+
+function countdown(){
+    if(c>0){
+        cd.innerHTML="Starting in "+c+"...";
+        c--;
+        setTimeout(countdown,1000);
+    } else {
+        cd.innerHTML="";
+        typeWriter();
+    }
+}
+countdown();
+
+// ================= TYPING MESSAGE =================
+let text="Pooks… Will you be my Valentine? ❤️";
+let i=0;
+
+function typeWriter(){
+    if(i<text.length){
+        document.getElementById("message").innerHTML+=text.charAt(i);
+        i++;
+        setTimeout(typeWriter,50);
+    }
+}
+
+// ================= RUNAWAY NO BUTTON =================
+let noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+    noBtn.style.left=Math.random()*(window.innerWidth-100)+"px";
+    noBtn.style.top=Math.random()*(window.innerHeight-60)+"px";
+});
+
+// ================= ROSE RAIN =================
+setInterval(()=>{
+    let r=document.createElement("div");
+    r.className="rose";
+    r.innerHTML="🌹";
+    r.style.left=Math.random()*100+"vw";
+    r.style.animationDuration=3+Math.random()*3+"s";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),6000);
+},300);
+
+// ================= HEARTS =================
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.top="100vh";
+    document.body.appendChild(h);
+
+    let rise=setInterval(()=>{
+        h.style.top=parseFloat(h.style.top)-1+"vh";
+        if(parseFloat(h.style.top)<0){
+            clearInterval(rise);
+            h.remove();
+        }
+    },30);
+},500);
+
+// ================= FIREWORKS =================
+function fireworks(){
+    for(let i=0;i<20;i++){
+        let f=document.createElement("div");
+        f.className="firework";
+        f.innerHTML="✨";
+        f.style.left=Math.random()*100+"vw";
+        f.style.top=Math.random()*100+"vh";
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+
+// ================= CONFETTI =================
+function confetti(){
+    for(let i=0;i<30;i++){
+        let c=document.createElement("div");
+        c.className="confetti";
+        c.innerHTML="🎉";
+        c.style.left=Math.random()*100+"vw";
+        c.style.top=Math.random()*100+"vh";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),2000);
+    }
+}
+
+// ================= SECRET MESSAGE =================
+function secret(){
+    alert("Pooks… you are my favorite human 💖");
+}
+
+// ================= YES CLICK =================
+document.getElementById("yesBtn").onclick=()=>{
+    document.body.innerHTML=`
+        <h1>😍 Pooks said YES!!! ❤️</h1>
+        <h2>You just made my heart explode with happiness 💕</h2>
+        <h3>Happy Valentine’s Day 💖</h3>
+        <p style="margin:20px;">A love letter for you…</p>
+        <div style="max-width:500px;margin:auto;">
+        Dear Pooks,<br><br>
+        Every moment with you feels magical.  
+        Thank you for being my happiness, my smile, and my favorite person.  
+        Forever yours 💕
+        </div>
+    `;
+
+    let party=setInterval(()=>{
+        fireworks();
+        confetti();
+    },600);
+
+    setTimeout(()=>clearInterval(party),8000);
+};
+
+</script>
+
+</body>
+</html>
